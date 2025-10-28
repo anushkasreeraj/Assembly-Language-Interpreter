@@ -1,7 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox, scrolledtext
-
-# ------------------- Interpreter Core ------------------- #
 class MiniAssemblyInterpreter:
     def __init__(self):
         self.registers = {'R1': 0, 'R2': 0, 'R3': 0, 'R4': 0}
@@ -73,7 +71,7 @@ class MiniAssemblyInterpreter:
 
         elif instr == "JMP":
             addr = int(tokens[1])
-            self.pc = addr - 1  # Adjust for auto-increment
+            self.pc = addr - 1  
 
         elif instr == "JC":
             addr = int(tokens[1])
@@ -102,7 +100,6 @@ class MiniAssemblyInterpreter:
                 raise Exception(f"Error on line {self.pc + 1}: {e}")
         return "\n".join(self.output)
 
-# ------------------- Theme Management ------------------- #
 def set_theme(theme):
     colors = {
         "light": {
@@ -163,7 +160,6 @@ def toggle_theme():
     current_theme = theme_order[current_theme_index]
     set_theme(current_theme)
 
-# ------------------- GUI Setup ------------------- #
 def run_interpreter():
     code = code_input.get("1.0", tk.END)
     interpreter = MiniAssemblyInterpreter()
@@ -176,19 +172,16 @@ def run_interpreter():
     except Exception as e:
         messagebox.showerror("Execution Error", str(e))
 
-# Create main window
 window = tk.Tk()
 window.title("Mini Assembly Interpreter")
 window.geometry("640x580")
 
-# Widgets
 label_code = tk.Label(window, text="Mini Assembly Language Interpreter:", font=("Arial", 10, "bold"))
 label_code.pack(pady=5)
-
 code_input = scrolledtext.ScrolledText(window, width=75, height=16)
 code_input.pack(padx=10, pady=5)
 
- #Preload test code
+
 code_input.insert(tk.END, """MOV R1, 250
 ADD R1, 10
 JC 7
@@ -201,28 +194,19 @@ PRN R3""")
 
 btn_run = tk.Button(window, text="Run", command=run_interpreter, font=("Arial", 10, "bold"))
 btn_run.pack(pady=10)
-
 label_output = tk.Label(window, text="Output:", font=("Arial", 10, "bold"))
 label_output.pack()
-
 output_display = scrolledtext.ScrolledText(window, width=75, height=10, state='disabled')
 output_display.pack(padx=10, pady=5)
-# Frame to hold both buttons side-by-side
+
 btn_frame = tk.Frame(window, bg=window["bg"])
 btn_frame.pack(pady=10)
-
 btn_theme = tk.Button(btn_frame, text="Change Theme", command=toggle_theme, font=("Arial", 10))
 btn_theme.pack(side=tk.LEFT, padx=10)
-
 btn_exit = tk.Button(btn_frame, text="Exit", command=window.destroy, font=("Arial", 10), bg="red", fg="white")
 btn_exit.pack(side=tk.LEFT, padx=10)
-
-
-
-# Apply initial theme
 set_theme(current_theme)
-
-# Run the GUI loop
 window.mainloop()
+
 
 
